@@ -1,0 +1,11 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+    <p>JSON objects list:</p>
+    {% for json in jsons %}
+        <div>
+            <p>{{ json }}</p>
+        </div>
+    {% endfor %}
+    <a href="{% url 'index' %}">Add another JSON</a>
+{% endblock %}

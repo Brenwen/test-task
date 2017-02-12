@@ -1,0 +1,48 @@
+{% extends 'myapp/base.html' %}
+
+{% block content%}
+<form id="forms" action="" method="post">
+    {% csrf_token %}
+    <div id="input">
+       {{ form }}
+    </div>
+    <button type="submit">Submit</button>
+</form>
+<div>
+    <div id="form">
+        <p><label for="name_0">Name: </label><input class="jsonvalues" id="name_0" type="text"/><button id="add-another">Add</button></p>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+//скрываем поле модели JSONField
+    $(document).ready(function () {
+        $("#input").hide()
+    });
+
+    var count = 0;
+
+//добавляем дополнительные поля формы ввода
+    $("#add-another").click(function () {
+        count++;
+        element = $('<p><label for="name_' + count + '">Name_' + count + ': </label><input id="name_' + count + '" class="jsonvalues" type="text" /></p>');
+        $("#form").append(element);
+    });
+//функция парсига данных из полей формы в строку и добавления ее в поле модели JSONField
+    function json_parse_fields() {
+        json_values = '';
+        $(".jsonvalues").each(function () {
+            field_id = this.id
+            field_value = $(this).val()
+            json_values = json_values + '"' + field_id + '":"' + field_value + '",';
+        });
+        json_values = json_values.slice(0, json_values.length - 1)
+        json_string = '{' + json_values + '}';
+        $("#id_json_names").val(json_string);
+    }
+    //запуск функции при уходе фокуса из формы ввода
+    $("#form").focusout(function () {
+        json_parse_fields()
+    });
+{% endblock %}

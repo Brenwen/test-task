@@ -1,0 +1,8 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+    <p>Current JSON:</p>
+   <p> {{ json }}</p>
+    <p><a href="{% url 'index' %}">Add another JSON</a></p>
+    <p><a href="{% url 'results' %}">View all JSONs</a></p>
+{% endblock %}
